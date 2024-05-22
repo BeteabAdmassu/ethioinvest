@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
+import '../views/home_screen.dart';
 import 'appwrite_client.dart';
 
 class AuthService {
@@ -16,13 +18,18 @@ class AuthService {
     }
   }
 
-  Future<void> loginUser(String email, String password) async {
+  Future<void> loginUser(String email, String password, BuildContext context) async {
     try {
       final response = await AppwriteClient.account.createEmailPasswordSession(
         email: email,
         password: password,
       );
       print('User logged in: ${response.toMap()}');
+       Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+
     } catch (e) {
       print('Error logging in: $e');
     }
