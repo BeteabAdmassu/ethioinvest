@@ -10,6 +10,8 @@ dependencies:
   appwrite: ^12.0.1
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.5.1
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +22,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets\logo\logo.bg.no.png
+    - assets\logo\logo.bg.png
+    - assets\logo\logo.png

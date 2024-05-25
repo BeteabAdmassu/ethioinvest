@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
-import '../views/home_screen.dart';
+import 'package:appwrite/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'appwrite_client.dart';
 
 class AuthService {
+  final Account account = Account(AppwriteClient.client);
+
   Future<void> registerUser(String email, String password, String name) async {
     try {
-      final response = await AppwriteClient.account.create(
+      final response = await account.create(
         userId: ID.unique(),
         email: email,
         password: password,
@@ -18,20 +20,55 @@ class AuthService {
     }
   }
 
-  Future<void> loginUser(String email, String password, BuildContext context) async {
+  Future<Session?> loginUser(String email, String password) async {
     try {
-      final response = await AppwriteClient.account.createEmailPasswordSession(
+      // Create a new session
+      final response = await account.createEmailPasswordSession(
         email: email,
         password: password,
       );
       print('User logged in: ${response.toMap()}');
-       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-
+      await _saveSession(response);
+      return response;
     } catch (e) {
       print('Error logging in: $e');
+      return null;
     }
   }
+
+  Future<void> logoutUser() async {
+    try {
+      final sessionId = await getSessionId();
+      if (sessionId != null) {
+        await account.deleteSession(sessionId: sessionId);
+      }
+      await _clearSession();
+      print('User logged out');
+    } catch (e) {
+      print('Error logging out: $e');
+    }
+  }
+
+  Future<void> _saveSession(Session session) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('sessionId', session.$id);
+    await prefs.setString('userId', session.userId);
+  }
+
+  Future<void> _clearSession() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('sessionId');
+    await prefs.remove('userId');
+  }
+
+  Future<String?> getSessionId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('sessionId');
+  }
+
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId');
+  }
+
 }
