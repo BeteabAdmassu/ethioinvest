@@ -29,7 +29,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final bool authState;
 
-  MyApp({required this.authState});
+  const MyApp({super.key, required this.authState});
 
   @override
   Widget build(BuildContext context) {

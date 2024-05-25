@@ -19,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: Center(
+      body: const Center(
         child: Text('Welcome to the Home Page!'),
       ),
     );

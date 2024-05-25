@@ -9,12 +9,14 @@ class AuthState {
   final String? userId;
   final String? email;
   final String? name;
+  final String? errorMessage;
 
   AuthState({
     required this.isAuthenticated,
     this.userId,
     this.email,
     this.name,
+    this.errorMessage,
   });
 
   AuthState copyWith({
@@ -22,12 +24,14 @@ class AuthState {
     String? userId,
     String? email,
     String? name,
+    String? errorMessage,
   }) {
     return AuthState(
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       userId: userId ?? this.userId,
       email: email ?? this.email,
       name: name ?? this.name,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }
@@ -46,6 +50,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     });
   }
 
+  void clearErrorMessage() {
+    state = state.copyWith(errorMessage: '');
+  }
+
   Future<void> registerUser(
       String email, String password, String name, BuildContext context) async {
     try {
@@ -53,11 +61,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
         await _initializePreferences();
       }
       await _ref.read(authServiceProvider).registerUser(email, password, name);
-      state = state.copyWith(isAuthenticated: true, email: email, name: name);
+      state = state.copyWith(
+          isAuthenticated: true, email: email, name: name, errorMessage: null);
       await _saveAuthState();
       Navigator.pushReplacementNamed(context, '/login');
     } catch (e) {
-      print('Error registering user: $e');
+      state = state.copyWith(errorMessage: 'Error registering user: $e');
+      
     }
   }
 
@@ -72,7 +82,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
           await _ref.read(authServiceProvider).loginUser(email, password);
       if (session != null) {
         state = state.copyWith(
-            isAuthenticated: true, userId: session.$id, email: email);
+            isAuthenticated: true,
+            userId: session.$id,
+            email: email,
+            errorMessage: null);
         await _saveAuthState();
         Navigator.pushReplacement(
           context,
@@ -80,6 +93,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         );
       }
     } catch (e) {
+      state = state.copyWith(errorMessage: 'Error logging in: $e');
       print('Error logging in: $e');
     }
   }
@@ -114,8 +128,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       try {
         final session = await _ref.read(authServiceProvider).account.get();
         if (session != null) {
-          state =
-              state.copyWith(userId: session.$id);
+          state = state.copyWith(userId: session.$id);
         } else {
           state = AuthState(isAuthenticated: false);
           await _clearAuthState();

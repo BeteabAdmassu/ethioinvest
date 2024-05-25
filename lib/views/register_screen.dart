@@ -4,12 +4,15 @@ import '../providers/auth_provider.dart';
 import '../views/login_screen.dart';
 
 class RegisterScreen extends ConsumerWidget {
+  RegisterScreen({super.key});
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -30,6 +33,13 @@ class RegisterScreen extends ConsumerWidget {
               Text('Create your account',
                   style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 20),
+              if (authState.errorMessage != null) ...[
+                Text(
+                  authState.errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                ),
+                const SizedBox(height: 20),
+              ],
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -90,7 +100,8 @@ class RegisterScreen extends ConsumerWidget {
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () {
-                        // Navigate to the RegisterScreen when the button is pressed
+                        //ref.read(authProvider.notifier).clearErrorMessage();
+                        ref.watch(authProvider.notifier).clearErrorMessage();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -127,108 +138,3 @@ class RegisterScreen extends ConsumerWidget {
     );
   }
 }
-
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: Padding(
-//         padding: EdgeInsets.all(16.0),
-//         child: Form(
-//           key: _formKey,
-//           child: SingleChildScrollView(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Center(
-//                   child: Image.asset(
-//                     'assets/logo/logo.bg.no.png',
-//                     height: 200,
-//                     width: 200,
-//                   ),
-//                 ),
-//                 SizedBox(height: 20),
-//                 Text(
-//                   'Create an Account',
-//                   style: TextStyle(
-//                     fontSize: 24,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//                 SizedBox(height: 20),
-//                 TextFormField(
-//                   controller: nameController,
-//                   decoration: InputDecoration(
-//                     labelText: 'Name',
-//                     border: OutlineInputBorder(),
-//                   ),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter your name';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 SizedBox(height: 20),
-//                 TextFormField(
-//                   controller: emailController,
-//                   decoration: InputDecoration(
-//                     labelText: 'Email',
-//                     border: OutlineInputBorder(),
-//                   ),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter your email';
-//                     }
-//                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-//                       return 'Please enter a valid email';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 SizedBox(height: 20),
-//                 TextFormField(
-//                   controller: passwordController,
-//                   decoration: InputDecoration(
-//                     labelText: 'Password',
-//                     border: OutlineInputBorder(),
-//                   ),
-//                   obscureText: true,
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return 'Please enter your password';
-//                     }
-//                     if (value.length < 6) {
-//                       return 'Password must be at least 6 characters';
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 SizedBox(height: 20),
-//                 SizedBox(
-//                   width: double.infinity,
-//                   child: ElevatedButton(
-//                     onPressed: () {
-//                       if (_formKey.currentState!.validate()) {
-//                         ref.read(authProvider.notifier).registerUser(
-//                               emailController.text,
-//                               passwordController.text,
-//                               nameController.text,
-//                               context,
-//                             );
-//                       }
-//                     },
-//                     child: Text('Register'),
-//                     style: ElevatedButton.styleFrom(
-//                       padding: EdgeInsets.symmetric(vertical: 16.0),
-//                       textStyle: TextStyle(fontSize: 18),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

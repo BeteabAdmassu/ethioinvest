@@ -4,16 +4,20 @@ import '../providers/auth_provider.dart';
 import '../views/register_screen.dart';
 
 class LoginScreen extends ConsumerWidget {
+
+  LoginScreen({super.key});
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -29,6 +33,15 @@ class LoginScreen extends ConsumerWidget {
               Text('Login in to your account',
                   style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 20),
+                 if (authState.errorMessage != null) ...[
+                Text(
+                  authState.errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                ),
+                const SizedBox(height: 20),
+              ],
+
+
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -80,7 +93,7 @@ class LoginScreen extends ConsumerWidget {
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () {
-                        // Navigate to the RegisterScreen when the button is pressed
+                        ref.read(authProvider.notifier).clearErrorMessage();
                         Navigator.push(
                           context,
                           MaterialPageRoute(

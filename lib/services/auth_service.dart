@@ -2,6 +2,7 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'appwrite_client.dart';
+import 'custom_exceptions.dart';
 
 class AuthService {
   final Account account = Account(AppwriteClient.client);
@@ -15,14 +16,23 @@ class AuthService {
         name: name,
       );
       print('User registered: ${response.toMap()}');
+    } on AppwriteException catch (e) {
+      if (e.code == 409) {
+        throw EmailAlreadyInUseException('Email is already in use.');
+      } else if (e.code == 400) {
+        throw InvalidEmailException('Invalid email address.');
+      } else if (e.code == 422) {
+        throw WeakPasswordException('Password is too weak.');
+      } else {
+        throw GenericAuthException('Registration failed. Please try again.');
+      }
     } catch (e) {
-      print('Error registering user: $e');
+      throw NetworkException('Network error. Please check your connection.');
     }
   }
 
   Future<Session?> loginUser(String email, String password) async {
     try {
-      // Create a new session
       final response = await account.createEmailPasswordSession(
         email: email,
         password: password,
@@ -30,9 +40,14 @@ class AuthService {
       print('User logged in: ${response.toMap()}');
       await _saveSession(response);
       return response;
+    } on AppwriteException catch (e) {
+      if (e.code == 401) {
+        throw InvalidCredentialsException('Invalid email or password.');
+      } else {
+        throw GenericAuthException('Please try again.');
+      }
     } catch (e) {
-      print('Error logging in: $e');
-      return null;
+      throw NetworkException('Please check your connection.');
     }
   }
 
@@ -70,5 +85,4 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('userId');
   }
-
 }
