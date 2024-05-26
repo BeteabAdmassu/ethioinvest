@@ -14,6 +14,7 @@ final authNotifierProvider =
   return AuthNotifier(ref, preferencesFuture);
 });
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure initialization
   final prefs = await SharedPreferences.getInstance();

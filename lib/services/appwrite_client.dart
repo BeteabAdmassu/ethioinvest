@@ -10,3 +10,7 @@ class AppwriteClient {
 
   static final Account account = Account(client);
 }
+
+
+
+
