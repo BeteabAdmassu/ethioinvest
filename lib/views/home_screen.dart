@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     PortfolioPage(),
     ProfilePage(),
   ];
-  
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -96,23 +95,22 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              
               height: 110,
               width: double.infinity,
               padding: EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 76, 187, 176),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                       color: Colors.black.withOpacity(0.6), // Shadow color with opacity
-                    spreadRadius: 2, // Spread radius
-                    blurRadius: 7, // Blur radius
-                    offset: Offset(0, 4),
-                  )
-                ]
-              ),
+                  color: Color.fromARGB(255, 76, 187, 176),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black
+                          .withOpacity(0.6), // Shadow color with opacity
+                      spreadRadius: 2, // Spread radius
+                      blurRadius: 7, // Blur radius
+                      offset: Offset(0, 4),
+                    )
+                  ]),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -120,9 +118,12 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text("Gains and Loses",
-                          style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                       SizedBox(height: 8),
-                      Text(_textVisible?'$amount Birr': '*****',
+                      Text(_textVisible ? '$amount Birr' : '*****',
                           style: TextStyle(color: Colors.white, fontSize: 18)),
                     ],
                   ),
@@ -130,7 +131,10 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Text("This Week",
-                          style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
                       IconButton(
                         icon: Icon(
                           _textVisible
@@ -152,30 +156,29 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-
               foregroundDecoration: BoxDecoration(
- borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  opacity: 0.4,
-                  fit:BoxFit.cover,
-                  image: NetworkImage("https://imgs.search.brave.com/P5t-v5iqe3i2d-MLbEkqKNjLvb0MJMX-BRlMY2Y-FC4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hLXVz/LnN0b3J5Ymxvay5j/b20vZi8xMDE2Mjg5/LzIxMjJ4MTY3MS80/Y2EwNTE3NGQ3L3Rl/Y2huaWNhbC1qb3Vy/bmFsMi5qcGcvbS8y/MTIyeDA"))
-              ),
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                      opacity: 0.4,
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          "https://imgs.search.brave.com/P5t-v5iqe3i2d-MLbEkqKNjLvb0MJMX-BRlMY2Y-FC4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hLXVz/LnN0b3J5Ymxvay5j/b20vZi8xMDE2Mjg5/LzIxMjJ4MTY3MS80/Y2EwNTE3NGQ3L3Rl/Y2huaWNhbC1qb3Vy/bmFsMi5qcGcvbS8y/MTIyeDA"))),
               padding: EdgeInsets.all(16),
               margin: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
               height: 120,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 194, 193, 193),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                       color: Colors.black.withOpacity(0.6), // Shadow color with opacity
-                    spreadRadius: 2, // Spread radius
-                    blurRadius: 7, // Blur radius
-                    offset: Offset(0, 4),
-                  )
-                ]
-              ),
+                  color: Color.fromARGB(255, 194, 193, 193),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black
+                          .withOpacity(0.6), // Shadow color with opacity
+                      spreadRadius: 2, // Spread radius
+                      blurRadius: 7, // Blur radius
+                      offset: Offset(0, 4),
+                    )
+                  ]),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -197,7 +200,8 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: 8),
                       Text(
                         percent,
-                        style: TextStyle(color: const Color.fromARGB(255, 2, 252, 10)),
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 2, 252, 10)),
                       ),
                     ],
                   ),
@@ -360,7 +364,8 @@ class FavoriteCard extends StatelessWidget {
                       Text(
                         title,
                         style: titleStyle ??
-                            TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         subtitle,
