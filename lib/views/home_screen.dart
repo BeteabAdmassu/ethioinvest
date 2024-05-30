@@ -11,9 +11,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    MarketsPage(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomePage(),
+    Markets(),
     PortfolioPage(),
     ProfilePage(),
   ];
@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 'Investments',
@@ -97,10 +98,10 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 110,
               width: double.infinity,
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 76, 187, 176),
+                  color: const Color.fromARGB(255, 76, 187, 176),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                           .withOpacity(0.6), // Shadow color with opacity
                       spreadRadius: 2, // Spread radius
                       blurRadius: 7, // Blur radius
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     )
                   ]),
               child: Row(
@@ -117,20 +118,21 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Gains and Loses",
+                      const Text("Gains and Loses",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(_textVisible ? '$amount Birr' : '*****',
-                          style: TextStyle(color: Colors.white, fontSize: 18)),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 18)),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Text("This Week",
+                      const Text("This Week",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
@@ -148,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 'Collections',
@@ -158,17 +160,17 @@ class _HomePageState extends State<HomePage> {
             Container(
               foregroundDecoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                       opacity: 0.4,
                       fit: BoxFit.cover,
                       image: NetworkImage(
                           "https://imgs.search.brave.com/P5t-v5iqe3i2d-MLbEkqKNjLvb0MJMX-BRlMY2Y-FC4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hLXVz/LnN0b3J5Ymxvay5j/b20vZi8xMDE2Mjg5/LzIxMjJ4MTY3MS80/Y2EwNTE3NGQ3L3Rl/Y2huaWNhbC1qb3Vy/bmFsMi5qcGcvbS8y/MTIyeDA"))),
-              padding: EdgeInsets.all(16),
-              margin: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
               height: 120,
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 194, 193, 193),
+                  color: const Color.fromARGB(255, 194, 193, 193),
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
@@ -176,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                           .withOpacity(0.6), // Shadow color with opacity
                       spreadRadius: 2, // Spread radius
                       blurRadius: 7, // Blur radius
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     )
                   ]),
               child: Row(
@@ -185,41 +187,41 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Banks',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         "Invest in the biggest banks in Ethiopia",
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         percent,
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 2, 252, 10)),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 2, 252, 10)),
                       ),
                     ],
                   ),
-                  Icon(
+                  const Icon(
                     Icons.account_balance,
                     size: 35,
                   ),
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 'Favorites',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             FavoriteCard(
               title: 'CBE',
               subtitle: 'Commercial Bank of Ethiopia',
@@ -227,20 +229,21 @@ class _HomePageState extends State<HomePage> {
               change: '+12.30%',
               changeColor: Colors.green,
               icon: Icons.account_balance_wallet,
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [Colors.teal, Colors.tealAccent],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: TextStyle(fontSize: 14, color: Colors.black),
+              titleStyle:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              subtitleStyle: const TextStyle(fontSize: 14, color: Colors.black),
               iconColor: Colors.white,
               iconSize: 50,
               onTap: () {
                 print('CBE tapped');
               },
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             FavoriteCard(
               title: 'AIB',
               subtitle: 'Awash Bank',
@@ -248,20 +251,21 @@ class _HomePageState extends State<HomePage> {
               change: '+11.30%',
               changeColor: Colors.green,
               icon: Icons.account_balance,
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [Colors.lightGreen, Colors.tealAccent],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: TextStyle(fontSize: 14, color: Colors.black),
+              titleStyle:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              subtitleStyle: const TextStyle(fontSize: 14, color: Colors.black),
               iconColor: Colors.white,
               iconSize: 50,
               onTap: () {
                 print('Awash Bank card tapped');
               },
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             FavoriteCard(
               title: 'RIDE',
               subtitle: 'Ride Ethiopia',
@@ -269,13 +273,14 @@ class _HomePageState extends State<HomePage> {
               change: '-18.30%',
               changeColor: Colors.red,
               icon: Icons.directions_car,
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [Colors.teal, Colors.tealAccent],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: TextStyle(fontSize: 14, color: Colors.black),
+              titleStyle:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              subtitleStyle: const TextStyle(fontSize: 14, color: Colors.black),
               iconColor: Colors.white,
               iconSize: 50,
               onTap: () {
@@ -338,7 +343,7 @@ class FavoriteCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 110,
-        margin: EdgeInsets.symmetric(horizontal: 25),
+        margin: const EdgeInsets.symmetric(horizontal: 25),
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: gradient,
@@ -356,7 +361,7 @@ class FavoriteCard extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Icon(icon, size: iconSize ?? 40, color: iconColor),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,13 +369,13 @@ class FavoriteCard extends StatelessWidget {
                       Text(
                         title,
                         style: titleStyle ??
-                            TextStyle(
+                            const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         subtitle,
                         style: subtitleStyle ??
-                            TextStyle(fontSize: 14, color: Colors.grey),
+                            const TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                     ],
                   ),
@@ -381,7 +386,8 @@ class FavoriteCard extends StatelessWidget {
                     Text(
                       amount,
                       style: amountStyle ??
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       change,

@@ -14,7 +14,6 @@ final authNotifierProvider =
   return AuthNotifier(ref, preferencesFuture);
 });
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure initialization
   final prefs = await SharedPreferences.getInstance();
@@ -34,16 +33,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: authState
-          ? HomeScreen()
-          : LoginScreen(), // Route based on login state
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
-      },
-    );
+        debugShowCheckedModeBanner: false,
+        // home: authState
+        //     ? HomeScreen()
+        //     : LoginScreen(), // Route based on login state
+        // routes: {
+        //   '/login': (context) => LoginScreen(),
+        //   '/register': (context) => RegisterScreen(),
+        // },
+        home: HomeScreen());
   }
 }
