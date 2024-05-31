@@ -15,6 +15,16 @@ class StockStateNotifier extends StateNotifier<List<Stock>> {
     }
   }
 
+  Future<Stock> fetchStockById(String stockId) async {
+    try {
+      final stock = await _stockService.fetchStockById(stockId);
+      return stock;
+    } catch (e) {
+      print('Error fetching stock by ID: $e');
+      rethrow;
+    }
+  }
+
   Future<void> createStock(Stock stock) async {
     try {
       await _stockService.createStock(stock);

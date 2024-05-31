@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: authState
           ? HomeScreen()
-          : LoginScreen(), // Route based on login state
+          : LoginScreen(), 
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),

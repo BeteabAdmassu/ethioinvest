@@ -33,6 +33,15 @@ class StockService {
     return response.documents.map((doc) => Stock.fromMap(doc.data)).toList();
   }
 
+  Future<Stock> fetchStockById(String stockId) async {
+    final response = await databases.getDocument(
+      databaseId: databaseId,
+      collectionId: collectionId,
+      documentId: stockId,
+    );
+    return Stock.fromMap(response.data);
+  }
+
   Future<void> updateStock(String documentId, Stock stock) async {
     await databases.updateDocument(
       databaseId: databaseId,

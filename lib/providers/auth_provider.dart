@@ -1,15 +1,12 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import '../views/home_screen.dart';
-import '../services/wallet_service.dart';
 import '../models/wallet.dart';
 import 'wallet_provider.dart';
 import '../models/auth.dart';
-import '../models/wallet.dart';
-import 'package:appwrite/models.dart';
+import '../providers/favorites_provider.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final Ref _ref;
@@ -21,7 +18,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     preferencesFuture.then((preferences) {
       _preferences = preferences;
       _isInitialized = true;
-    
     });
   }
 
@@ -67,8 +63,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
             email: email,
             errorMessage: null);
 
-        await loadUserData(session.userId);
         await _saveAuthState();
+        // await loadUserData(session.userId);
+        await initializeUserData();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -84,6 +81,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     loadAuthState();
     final walletNotifier = _ref.read(walletStateProvider.notifier);
     await walletNotifier.fetchWallets(userId);
+
+    // Fetch favorites here
+    final favoritesNotifier = _ref.read(favoritesStateProvider.notifier);
+    await favoritesNotifier.fetchFavorites(userId);
+  }
+
+  Future<void> initializeUserData() async {
+    final userId = await _ref.read(authServiceProvider).getUserId();
+    await loadUserData(userId!);
   }
 
   Future<void> logoutUser(BuildContext context) async {
@@ -101,7 +107,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> loadAuthState() async {
-     _preferences = await SharedPreferences.getInstance();
+    _preferences = await SharedPreferences.getInstance();
     final isAuthenticated = _preferences.getBool('isAuthenticated') ?? false;
     final userId = await _ref.read(authServiceProvider).getUserId();
     final email = _preferences.getString('email');
@@ -113,11 +119,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       email: email,
       name: name,
     );
-  }
-
-  Future<void> initializeUserData() async {
-    final userId = await _ref.read(authServiceProvider).getUserId();
-    await loadUserData(userId!);
   }
 
   Future<void> _saveAuthState() async {

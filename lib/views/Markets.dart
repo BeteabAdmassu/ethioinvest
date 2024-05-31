@@ -26,7 +26,7 @@ class Markets extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          // Implement the refresh logic here
+          await Future.delayed(const Duration(seconds: 1));
           await stockStateNotifier.fetchStocks();
         },
         child: stocks.isEmpty

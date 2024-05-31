@@ -4,6 +4,7 @@ import 'package:ethioinvest/views/Profile.dart';
 import 'package:flutter/material.dart';
 import '../widgets/balance.dart';
 import '../widgets/username.dart';
+import '../widgets/favoritesCard.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -68,8 +69,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String percent = '+12.30%';
   bool textVisible = false;
+
+  Future<void> _refresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 
   void toggleShow() {
     setState(() {
@@ -80,325 +84,172 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            usernameTextWidget(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Text(
-                'Investments',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              height: 110,
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 76, 187, 176),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black
-                          .withOpacity(0.6), // Shadow color with opacity
-                      spreadRadius: 2, // Spread radius
-                      blurRadius: 7, // Blur radius
-                      offset: const Offset(0, 4),
-                    )
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Balance",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(height: 8),
-                      balance(textVisible: textVisible),
-                    ],
+        appBar: AppBar(),
+        body: RefreshIndicator(
+          onRefresh: _refresh,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                usernameTextWidget(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Text(
+                    'Investments',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                ),
+                Container(
+                  height: 110,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 76, 187, 176),
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black
+                              .withOpacity(0.6), // Shadow color with opacity
+                          spreadRadius: 2, // Spread radius
+                          blurRadius: 7, // Blur radius
+                          offset: const Offset(0, 4),
+                        )
+                      ]),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold)),
-                      IconButton(
-                        icon: Icon(
-                          textVisible ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: toggleShow,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Balance",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          balance(textVisible: textVisible),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Text(
-                'Collections',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              foregroundDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  image: const DecorationImage(
-                      opacity: 0.4,
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          "https://imgs.search.brave.com/P5t-v5iqe3i2d-MLbEkqKNjLvb0MJMX-BRlMY2Y-FC4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hLXVz/LnN0b3J5Ymxvay5j/b20vZi8xMDE2Mjg5/LzIxMjJ4MTY3MS80/Y2EwNTE3NGQ3L3Rl/Y2huaWNhbC1qb3Vy/bmFsMi5qcGcvbS8y/MTIyeDA"))),
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
-              height: 120,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 194, 193, 193),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black
-                          .withOpacity(0.6), // Shadow color with opacity
-                      spreadRadius: 2, // Spread radius
-                      blurRadius: 7, // Blur radius
-                      offset: const Offset(0, 4),
-                    )
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
-                        'Banks',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        "Invest in the biggest banks in Ethiopia",
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        percent,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 2, 252, 10)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text("",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold)),
+                          IconButton(
+                            icon: Icon(
+                              textVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: toggleShow,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const Icon(
-                    Icons.account_balance,
-                    size: 35,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Text(
+                    'Collections',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  foregroundDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    // image: const DecorationImage(
+                    //   opacity: 0.4,
+                    //   fit: BoxFit.cover,
+                    //   image: NetworkImage(
+                    //     "https://imgs.search.brave.com/P5t-v5iqe3i2d-MLbEkqKNjLvb0MJMX-BRlMY2Y-FC4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hLXVz/LnN0b3J5Ymxvay5j/b20vZi8xMDE2Mjg5/LzIxMjJ4MTY3MS80/Y2EwNTE3NGQ3L3Rl/Y2huaWNhbC1qb3Vy/bmFsMi5qcGcvbS8y/MTIyeDA",
+                    //   ),
+                    // ),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+                  height: 120,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 194, 193, 193),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black
+                              .withOpacity(0.6), // Shadow color with opacity
+                          spreadRadius: 2, // Spread radius
+                          blurRadius: 7, // Blur radius
+                          offset: const Offset(0, 4),
+                        )
+                      ]),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            'Banks',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            "Invest in the biggest banks in Ethiopia",
+                            style: TextStyle(color: Colors.black, fontSize: 13),
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                      const Icon(
+                        Icons.account_balance,
+                        size: 35,
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Text(
+                    'Favorites',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                FavoriteCard(
+                  onTap: () {
+                    print('CBE tapped');
+                  },
+                ),
+              ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Text(
-                'Favorites',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 8),
-            FavoriteCard(
-              title: 'CBE',
-              subtitle: 'Commercial Bank of Ethiopia',
-              amount: '500 Birr',
-              change: '+12.30%',
-              changeColor: Colors.green,
-              icon: Icons.account_balance_wallet,
-              gradient: const LinearGradient(
-                colors: [Colors.teal, Colors.tealAccent],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              titleStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: const TextStyle(fontSize: 14, color: Colors.black),
-              iconColor: Colors.white,
-              iconSize: 50,
-              onTap: () {
-                print('CBE tapped');
-              },
-            ),
-            const SizedBox(height: 8),
-            FavoriteCard(
-              title: 'AIB',
-              subtitle: 'Awash Bank',
-              amount: '900 Birr',
-              change: '+11.30%',
-              changeColor: Colors.green,
-              icon: Icons.account_balance,
-              gradient: const LinearGradient(
-                colors: [Colors.lightGreen, Colors.tealAccent],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              titleStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: const TextStyle(fontSize: 14, color: Colors.black),
-              iconColor: Colors.white,
-              iconSize: 50,
-              onTap: () {
-                print('Awash Bank card tapped');
-              },
-            ),
-            const SizedBox(height: 8),
-            FavoriteCard(
-              title: 'RIDE',
-              subtitle: 'Ride Ethiopia',
-              amount: '200 Birr',
-              change: '-18.30%',
-              changeColor: Colors.red,
-              icon: Icons.directions_car,
-              gradient: const LinearGradient(
-                colors: [Colors.teal, Colors.tealAccent],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              titleStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: const TextStyle(fontSize: 14, color: Colors.black),
-              iconColor: Colors.white,
-              iconSize: 50,
-              onTap: () {
-                print('Ride card tapped');
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
 
 class FavoriteCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String amount;
-  final String change;
-  final Color changeColor;
-  final IconData icon;
-  final Gradient? gradient;
-  final Color? borderColor;
-  final double? borderWidth;
-  final TextStyle? titleStyle;
-  final TextStyle? subtitleStyle;
-  final TextStyle? amountStyle;
-  final TextStyle? changeStyle;
-  final Color? iconColor;
-  final double? iconSize;
   final VoidCallback? onTap;
-  final double? width;
-  final double? height;
-  final EdgeInsetsGeometry? margin;
 
-  FavoriteCard({
-    required this.title,
-    required this.subtitle,
-    required this.amount,
-    required this.change,
-    required this.changeColor,
-    required this.icon,
-    this.gradient,
-    this.borderColor,
-    this.borderWidth,
-    this.titleStyle,
-    this.subtitleStyle,
-    this.amountStyle,
-    this.changeStyle,
-    this.iconColor,
-    this.iconSize,
+  const FavoriteCard({
+    super.key,
     this.onTap,
-    this.width,
-    this.height,
-    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        height: 110,
-        margin: const EdgeInsets.symmetric(horizontal: 25),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Card(
-          shadowColor: Colors.amber,
-          elevation: 6,
-          color: Colors.teal,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              children: <Widget>[
-                Icon(icon, size: iconSize ?? 40, color: iconColor),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        title,
-                        style: titleStyle ??
-                            const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        subtitle,
-                        style: subtitleStyle ??
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Text(
-                      amount,
-                      style: amountStyle ??
-                          const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      change,
-                      style: changeStyle ??
-                          TextStyle(
-                              color: changeColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      child: favoritesCard(),
     );
   }
 }
