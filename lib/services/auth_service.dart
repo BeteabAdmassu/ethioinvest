@@ -75,8 +75,7 @@ class AuthService {
 
   Future<void> _clearSession() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('sessionId');
-    await prefs.remove('userId');
+    await prefs.clear();
   }
 
   Future<String?> getSessionId() async {

@@ -63,8 +63,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
             email: email,
             errorMessage: null);
 
+        print(session?.toMap());
+
         await _saveAuthState();
-        await initializeUserData();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -98,11 +99,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
       await _ref.read(authServiceProvider).logoutUser();
       state = state.copyWith(isAuthenticated: false, userId: null, email: null);
-      await _saveAuthState();
+      await _clearAuthState();
+
+      _ref.read(walletStateProvider.notifier).reset();
+      _ref.read(favoritesStateProvider.notifier).reset();
+      reset();
+
       Navigator.pushReplacementNamed(context, '/login');
     } catch (e) {
       print('Error logging out: $e');
     }
+  }
+
+  void reset() {
+    state = AuthState(
+        isAuthenticated: false, userId: null, email: null, name: null);
   }
 
   Future<void> loadAuthState() async {
