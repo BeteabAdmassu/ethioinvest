@@ -2,17 +2,19 @@ import 'package:ethioinvest/views/Markets.dart';
 import 'package:ethioinvest/views/Portfolio.dart';
 import 'package:ethioinvest/views/Profile.dart';
 import 'package:flutter/material.dart';
+import '../widgets/balance.dart';
+import '../widgets/username.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomePage(),
     MarketsPage(),
     PortfolioPage(),
     ProfilePage(),
@@ -65,28 +67,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const String amount = "10,000";
   String username = 'Bamlak';
   String percent = '+12.30%';
-  bool _textVisible = true;
+  bool textVisible = false;
 
   void toggleShow() {
     setState(() {
-      _textVisible = !_textVisible;
+      textVisible = !textVisible;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome $username'),
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            usernameTextWidget(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
@@ -117,29 +117,26 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Gains and Loses",
+                      Text("Balance",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
                       SizedBox(height: 8),
-                      Text(_textVisible ? '$amount Birr' : '*****',
-                          style: TextStyle(color: Colors.white, fontSize: 18)),
+                      balance(textVisible: textVisible),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Text("This Week",
+                      Text("",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.bold)),
                       IconButton(
                         icon: Icon(
-                          _textVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          textVisible ? Icons.visibility : Icons.visibility_off,
                         ),
                         onPressed: toggleShow,
                       ),

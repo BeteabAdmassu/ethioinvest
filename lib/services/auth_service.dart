@@ -7,7 +7,8 @@ import 'custom_exceptions.dart';
 class AuthService {
   final Account account = Account(AppwriteClient.client);
 
-  Future<void> registerUser(String email, String password, String name) async {
+  Future<String> registerUser(
+      String email, String password, String name) async {
     try {
       final response = await account.create(
         userId: ID.unique(),
@@ -15,7 +16,10 @@ class AuthService {
         password: password,
         name: name,
       );
+      final userId = response.$id;
+
       print('User registered: ${response.toMap()}');
+      return userId;
     } on AppwriteException catch (e) {
       if (e.code == 409) {
         throw EmailAlreadyInUseException('Email is already in use.');
@@ -37,7 +41,6 @@ class AuthService {
         email: email,
         password: password,
       );
-      print('User logged in: ${response.toMap()}');
       await _saveSession(response);
       return response;
     } on AppwriteException catch (e) {

@@ -1,5 +1,3 @@
-
-
 import 'package:ethioinvest/views/Profile.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +11,7 @@ class _Help_supportState extends State<Help_support> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -63,17 +62,18 @@ class _Help_supportState extends State<Help_support> {
               SizedBox(height: 16),
               _buildFAQSection(
                 question: '4. What are the fees for trading?',
-                answer: 'Our app charges a small commission fee on each trade. You can find the detailed fee structure in the "Account Settings" under the "Fees" section.',
+                answer:
+                    'Our app charges a small commission fee on each trade. You can find the detailed fee structure in the "Account Settings" under the "Fees" section.',
               ),
               SizedBox(height: 16),
               _buildFAQSection(
                 question: '5. How do I reset my password?',
-                answer: 'If you forget your password, you can reset it by following these steps:\n'
+                answer:
+                    'If you forget your password, you can reset it by following these steps:\n'
                     '1. Click on the "Forgot Password" link on the login page.\n'
                     '2. Enter your registered email address.\n'
                     '3. Check your email for a password reset link and follow the instructions.',
               ),
-              
               SizedBox(height: 16),
               const Text(
                 'Community Resources',
@@ -92,9 +92,9 @@ class _Help_supportState extends State<Help_support> {
               SizedBox(height: 8),
               const Text(
                 'To help you become a better trader, we offer a range of educational resources, including:\n\n'
-                    'Video Tutorials: Step-by-step guides on using the app and understanding the stock market.\n\n'
-                    'Webinars: Live sessions with trading experts covering various topics.\n\n'
-                    'E-Books: Comprehensive guides on investing strategies and market analysis.',
+                'Video Tutorials: Step-by-step guides on using the app and understanding the stock market.\n\n'
+                'Webinars: Live sessions with trading experts covering various topics.\n\n'
+                'E-Books: Comprehensive guides on investing strategies and market analysis.',
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 16),
@@ -102,20 +102,19 @@ class _Help_supportState extends State<Help_support> {
                 'We hope this Help & Support page provides the information you need to make the most of our app. Happy trading!',
                 style: TextStyle(fontSize: 16),
               ),
-
-                ElevatedButton(
-        onPressed: () {
-  Navigator.pop(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-
-      }, child: const Text('Back',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-      style: ElevatedButton.styleFrom(
-
-      )
-      ),
-
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                    );
+                  },
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  style: ElevatedButton.styleFrom()),
             ],
           ),
         ),
@@ -139,6 +138,4 @@ class _Help_supportState extends State<Help_support> {
       ],
     );
   }
-
 }
-    

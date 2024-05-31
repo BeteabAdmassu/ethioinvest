@@ -1,40 +1,15 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import '../views/home_screen.dart';
-
-class AuthState {
-  final bool isAuthenticated;
-  final String? userId;
-  final String? email;
-  final String? name;
-  final String? errorMessage;
-
-  AuthState({
-    required this.isAuthenticated,
-    this.userId,
-    this.email,
-    this.name,
-    this.errorMessage,
-  });
-
-  AuthState copyWith({
-    bool? isAuthenticated,
-    String? userId,
-    String? email,
-    String? name,
-    String? errorMessage,
-  }) {
-    return AuthState(
-      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      userId: userId ?? this.userId,
-      email: email ?? this.email,
-      name: name ?? this.name,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
-}
+import '../services/wallet_service.dart';
+import '../models/Wallet.dart';
+import 'wallet_provider.dart';
+import '../models/Auth.dart';
+import '../models/Wallet.dart';
+import 'package:appwrite/models.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final Ref _ref;
@@ -46,7 +21,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     preferencesFuture.then((preferences) {
       _preferences = preferences;
       _isInitialized = true;
-      loadAuthState();
+    
     });
   }
 
@@ -60,14 +35,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (!_isInitialized) {
         await _initializePreferences();
       }
-      await _ref.read(authServiceProvider).registerUser(email, password, name);
+      final authService = _ref.read(authServiceProvider);
+      final Id = await authService.registerUser(email, password, name);
+
       state = state.copyWith(
           isAuthenticated: true, email: email, name: name, errorMessage: null);
-      await _saveAuthState();
+      //After successful registration, add a wallet for the new user
+      final walletNotifier = _ref.read(walletStateProvider.notifier);
+      final newWallet = Wallet(userId: Id, balance: 10);
+      await walletNotifier.createWallet(newWallet);
       Navigator.pushReplacementNamed(context, '/login');
     } catch (e) {
       state = state.copyWith(errorMessage: 'Error registering user: $e');
-      
     }
   }
 
@@ -80,12 +59,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       final session =
           await _ref.read(authServiceProvider).loginUser(email, password);
+
       if (session != null) {
         state = state.copyWith(
             isAuthenticated: true,
-            userId: session.$id,
+            userId: session.userId,
             email: email,
             errorMessage: null);
+
+        await loadUserData(session.userId);
         await _saveAuthState();
         Navigator.pushReplacement(
           context,
@@ -96,6 +78,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(errorMessage: 'Error logging in: $e');
       print('Error logging in: $e');
     }
+  }
+
+  Future<void> loadUserData(String userId) async {
+    loadAuthState();
+    final walletNotifier = _ref.read(walletStateProvider.notifier);
+    await walletNotifier.fetchWallets(userId);
   }
 
   Future<void> logoutUser(BuildContext context) async {
@@ -113,6 +101,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> loadAuthState() async {
+     _preferences = await SharedPreferences.getInstance();
     final isAuthenticated = _preferences.getBool('isAuthenticated') ?? false;
     final userId = await _ref.read(authServiceProvider).getUserId();
     final email = _preferences.getString('email');
@@ -124,19 +113,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
       email: email,
       name: name,
     );
-    if (isAuthenticated && userId != null) {
-      try {
-        final session = await _ref.read(authServiceProvider).account.get();
-        if (session != null) {
-          state = state.copyWith(userId: session.$id);
-        } else {
-          state = AuthState(isAuthenticated: false);
-          await _clearAuthState();
-        }
-      } catch (e) {
-        print('Error verifying session: $e');
-      }
-    }
+  }
+
+  Future<void> initializeUserData() async {
+    final userId = await _ref.read(authServiceProvider).getUserId();
+    await loadUserData(userId!);
   }
 
   Future<void> _saveAuthState() async {
@@ -159,6 +140,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 }
 
+//provider
 final authServiceProvider = Provider((ref) => AuthService());
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {

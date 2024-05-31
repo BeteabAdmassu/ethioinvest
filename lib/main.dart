@@ -6,17 +6,11 @@ import 'views/register_screen.dart';
 import 'views/home_screen.dart';
 import 'providers/auth_provider.dart';
 import 'services/auth_service.dart';
-
-final authServiceProvider = Provider((ref) => AuthService());
-final authNotifierProvider =
-    StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final preferencesFuture = SharedPreferences.getInstance();
-  return AuthNotifier(ref, preferencesFuture);
-});
+import './models/Auth.dart';
 
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure initialization
+  WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final authState = prefs.getBool('isAuthenticated') ?? false;
 
@@ -34,8 +28,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       home: authState
           ? HomeScreen()
