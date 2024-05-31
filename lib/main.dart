@@ -1,3 +1,5 @@
+import 'package:ethioinvest/models/Stock.dart';
+import 'package:ethioinvest/views/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,14 +36,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // home: authState
-        //     ? HomeScreen()
-        //     : LoginScreen(), // Route based on login state
-        // routes: {
-        //   '/login': (context) => LoginScreen(),
-        //   '/register': (context) => RegisterScreen(),
-        // },
-        home: HomeScreen());
+      debugShowCheckedModeBanner: false,
+      home: authState
+          ? HomeScreen()
+          : LoginScreen(), // Route based on login state
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+      },
+    );
   }
 }
