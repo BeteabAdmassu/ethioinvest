@@ -1,7 +1,7 @@
 class Stock {
   String companyName;
-  String description;
   String symbol;
+  String description;
   double averagePrice;
   double gain;
 
