@@ -1,4 +1,4 @@
-import 'package:ethioinvest/models/Stock.dart';
+import 'package:ethioinvest/models/stock.dart';
 import 'package:flutter/material.dart';
 
 class Trade extends StatelessWidget {

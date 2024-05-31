@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/database_provider.dart';
-import '../models/Wallet.dart';
+import '../models/wallet.dart';
 
 final walletProvider = Provider((ref) {
   final databases = ref.watch(databasesProvider);

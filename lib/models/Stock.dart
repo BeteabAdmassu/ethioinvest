@@ -7,27 +7,29 @@ class Stock {
 
   Stock({
     required this.companyName,
-    required this.description,
     required this.symbol,
+    required this.description,
     required this.averagePrice,
     required this.gain,
   });
 
-  factory Stock.fromJson(Map<String, dynamic> json) {
-    return Stock(
-      companyName: json['company_name'] as String,
-      description: json['description'] as String,
-      symbol: json['symbol'] as String,
-      averagePrice: (json['average_price'] ?? 0.0) as double,
-      gain: (json['gain'] ?? 0.0) as double,
-    );
+  Map<String, dynamic> toMap() {
+    return {
+      'company_name': companyName,
+      'symbol': symbol,
+      'Description': description,
+      'AveragePrice': averagePrice,
+      'Gains': gain,
+    };
   }
 
-  Map<String, dynamic> toJson() => {
-        'company_name': companyName,
-        'description': description,
-        'symbol': symbol,
-        'average_price': averagePrice,
-        'gain': gain,
-      };
+  factory Stock.fromMap(Map<String, dynamic> map) {
+    return Stock(
+      companyName: map['company_name'] ?? '',
+      symbol: map['symbol'] ?? '',
+      description: map['Description'] ?? '',
+      averagePrice: (map['AveragePrice'] ?? 0.0).toDouble(),
+      gain: (map['Gains'] ?? 0.0).toDouble(),
+    );
+  }
 }

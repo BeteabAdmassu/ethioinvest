@@ -1,4 +1,4 @@
-import 'package:ethioinvest/models/Stock.dart';
+import 'package:ethioinvest/models/stock.dart';
 import 'package:ethioinvest/views/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -5,10 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import '../views/home_screen.dart';
 import '../services/wallet_service.dart';
-import '../models/Wallet.dart';
+import '../models/wallet.dart';
 import 'wallet_provider.dart';
-import '../models/Auth.dart';
-import '../models/Wallet.dart';
+import '../models/auth.dart';
+import '../models/wallet.dart';
 import 'package:appwrite/models.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {

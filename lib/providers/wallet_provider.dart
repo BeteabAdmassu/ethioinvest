@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/Wallet.dart';
+import '../models/wallet.dart';
 import '../services/wallet_service.dart';
 
 class WalletStateNotifier extends StateNotifier<List<Wallet>> {
