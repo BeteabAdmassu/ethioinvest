@@ -64,7 +64,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
             errorMessage: null);
 
         await _saveAuthState();
-        // await loadUserData(session.userId);
         await initializeUserData();
         Navigator.pushReplacement(
           context,

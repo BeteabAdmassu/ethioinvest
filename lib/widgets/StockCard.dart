@@ -1,5 +1,4 @@
 import 'package:ethioinvest/models/stock.dart';
-import 'package:ethioinvest/views/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -18,12 +17,12 @@ Widget stockCard({required Stock stock, required BuildContext context}) {
           borderRadius: BorderRadius.circular(10.0),
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Trade(stock: stock),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => Trade(stock: stock),
+            //   ),
+            // );
           },
           child: SizedBox(
             height: 70,

@@ -25,12 +25,12 @@ class favoritesCard extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 splashColor: Colors.blue.withAlpha(30),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Trade(stock: favoriteStock),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     // builder: (context) => Trade(stock: favoriteStock),
+                  //   ),
+                  // );
                 },
                 child: SizedBox(
                   height: 70,
