@@ -24,31 +24,36 @@ class Markets extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Markets'),
       ),
-      body: stocks.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Stock Market Overview',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Implement the refresh logic here
+          await stockStateNotifier.fetchStocks();
+        },
+        child: stocks.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Stock Market Overview',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap:
-                        true, // Ensure the ListView doesn't occupy extra space
-                    itemCount: stocks.length,
-                    itemBuilder: (context, index) {
-                      Stock stock = stocks[index];
-                      return stockCard(stock: stock, context: context);
-                    },
-                  ),
-                ],
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: stocks.length,
+                      itemBuilder: (context, index) {
+                        Stock stock = stocks[index];
+                        return stockCard(stock: stock, context: context);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           // Example code to create a new stock
