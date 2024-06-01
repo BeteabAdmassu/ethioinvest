@@ -11,7 +11,6 @@ class StockStateNotifier extends StateNotifier<List<Stock>> {
     try {
       final stocks = await _stockService.fetchStocks();
       state = stocks;
-      debugPrint('${stocks[0].companyName} : ${stocks[0].stockId}');
     } catch (e) {
       print('Error fetching stocks: $e');
     }

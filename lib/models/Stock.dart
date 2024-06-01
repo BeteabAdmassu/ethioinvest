@@ -17,7 +17,7 @@ class Stock {
 
   Map<String, dynamic> toMap() {
     return {
-      'Document ID': stockId,
+      'documentId': stockId,
       'company_name': companyName,
       'symbol': symbol,
       'Description': description,

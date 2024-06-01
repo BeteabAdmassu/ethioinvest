@@ -31,8 +31,11 @@ class StockService {
       databaseId: databaseId,
       collectionId: collectionId,
     );
-    debugPrint(response.documents.first.toString());
-    return response.documents.map((doc) => Stock.fromMap(doc.data)).toList();
+    return response.documents.map((doc) {
+      var stock = Stock.fromMap(doc.data);
+      stock.stockId = doc.$id;
+      return stock;
+    }).toList();
   }
 
   Future<Stock> fetchStockById(String stockId) async {
