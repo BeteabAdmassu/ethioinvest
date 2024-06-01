@@ -19,7 +19,6 @@ class FavoritesStateNotifier extends StateNotifier<List<Stock>> {
             await _stockStateNotifier.fetchStockById(favorite.stockId);
         stocks.add(stock);
       }
-      print(stocks.length);
       state = stocks;
     } catch (e) {
       print('Error fetching favorites: $e');
@@ -48,6 +47,10 @@ class FavoritesStateNotifier extends StateNotifier<List<Stock>> {
     } catch (e) {
       print('Error deleting favorite: $e');
     }
+  }
+
+  void reset(){
+    state = [];
   }
 }
 

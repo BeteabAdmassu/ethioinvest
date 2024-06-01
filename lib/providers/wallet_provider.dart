@@ -8,7 +8,7 @@ class WalletStateNotifier extends StateNotifier<List<Wallet>> {
 
   Future<void> fetchWallets(String userId) async {
     try {
-    final wallets = await _walletService.fetchWallets(userId);
+      final wallets = await _walletService.fetchWallets(userId);
       state = wallets;
     } catch (e) {
       print('Error fetching wallets: $e');
@@ -43,6 +43,9 @@ class WalletStateNotifier extends StateNotifier<List<Wallet>> {
 //       print('Error deleting wallet: $e');
 //     }
 //   }
+  void reset() {
+    state = [];
+  }
 
   List<Wallet> get wallets => state;
 }
