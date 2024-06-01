@@ -4,7 +4,6 @@ import 'package:ethioinvest/providers/auth_provider.dart';
 import 'package:ethioinvest/providers/favorites_provider.dart';
 import 'package:ethioinvest/views/checkout.dart';
 import 'package:ethioinvest/views/listingCheckout.dart';
-import 'package:ethioinvest/widgets/HistoryCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -88,7 +87,9 @@ class Trade extends ConsumerWidget {
               ),
               SizedBox(
                 height: 250,
-                child: HistoryCard(),
+                child: Image.asset(
+                  'assets/logo/samplegraph.jpg',
+                ),
               ),
               const SizedBox(
                 height: 10,

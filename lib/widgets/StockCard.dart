@@ -54,10 +54,13 @@ Widget stockCard({required Stock stock, required BuildContext context}) {
                               fontSize: 16.0,
                             ),
                           ),
-                          Text(
-                            stock.companyName,
-                            style: const TextStyle(color: Colors.black54),
-                          )
+                          RichText(
+                            overflow: TextOverflow.ellipsis,
+                            strutStyle: const StrutStyle(fontSize: 12.0),
+                            text: TextSpan(
+                                style: const TextStyle(color: Colors.black),
+                                text: stock.companyName),
+                          ),
                         ],
                       ),
                     ],
