@@ -1,11 +1,11 @@
 import 'package:ethioinvest/models/Portfolio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/Portfolio_service.dart';
-import '../models/stock.dart';
+import '../models/Stock.dart';
 import '../providers/stock_provider.dart';
 
 class PortfolioStateNotifier extends StateNotifier<List<Stock>> {
-  final portfolioService _portfolioService;
+  final PortfolioService _portfolioService;
   final StockStateNotifier _stockStateNotifier;
   PortfolioStateNotifier(this._portfolioService, this._stockStateNotifier)
       : super([]);

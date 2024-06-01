@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/stock.dart';
+import '../models/Stock.dart';
 import '../services/stock_service.dart';
 
 class StockStateNotifier extends StateNotifier<List<Stock>> {

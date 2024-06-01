@@ -20,22 +20,22 @@ class Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
       stockId: json['stock_id'] as String,
-      transactionType: json['transaction_type'] as String,
+      transactionType: json['transactiontype'] as String,
       quantity: json['quantity'] as int,
       pricePerShare: (json['price_per_share'] as num).toDouble(),
       totalAmount: (json['total_amount'] as num).toDouble(),
       transactionDate: json['transaction_date'] as String,
-      userId: json['userId'] as String,
+      userId: json['userID'] as String,
     );
   }
 
   Map<String, dynamic> toJson() => {
         'stock_id': stockId,
-        'transaction_type': transactionType,
+        'transactiontype': transactionType,
         'quantity': quantity,
         'price_per_share': pricePerShare,
         'total_amount': totalAmount,
         'transaction_date': transactionDate,
-        'userId': userId,
+        'userID': userId,
       };
 }

@@ -1,6 +1,6 @@
+import 'package:ethioinvest/models/Stock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/stock.dart';
 import '../providers/stock_provider.dart';
 import '../widgets/StockCard.dart';
 

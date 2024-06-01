@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/favorite.dart';
 import '../services/favorites_service.dart';
-import '../models/stock.dart';
+import '../models/Stock.dart';
 import '../providers/stock_provider.dart';
 
 class FavoritesStateNotifier extends StateNotifier<List<Stock>> {
@@ -49,7 +49,7 @@ class FavoritesStateNotifier extends StateNotifier<List<Stock>> {
     }
   }
 
-  void reset(){
+  void reset() {
     state = [];
   }
 }

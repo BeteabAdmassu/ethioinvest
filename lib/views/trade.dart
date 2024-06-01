@@ -1,21 +1,18 @@
-import 'package:ethioinvest/models/Portfolio.dart';
-import 'package:ethioinvest/models/stock.dart';
+import 'package:ethioinvest/models/Stock.dart';
 import 'package:ethioinvest/providers/auth_provider.dart';
+import 'package:ethioinvest/views/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Trade extends ConsumerWidget {
   final Stock stock;
-  //PortfolioItem portfolio;
-  const Trade({super.key, required this.stock});
+  Trade({super.key, required this.stock});
+  final TextEditingController _quantityController = TextEditingController();
+  double _totalCost = 0.0;
 
   @override
   build(BuildContext context, WidgetRef ref) {
-    final authNotifier = ref.read(authProvider.notifier);
-    final authState = ref.watch(authProvider);
-    final userId = authState.userId.toString();
     return Scaffold(
         appBar: AppBar(
           title: Text(stock.companyName),
@@ -110,7 +107,7 @@ class Trade extends ConsumerWidget {
                             backgroundColor: Colors.teal,
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: () => buy(userId),
+                          onPressed: () => _showBuyDialog(context),
                           child: Text(
                             'Buy ${stock.averagePrice} Birr',
                             style: const TextStyle(fontSize: 16),
@@ -155,8 +152,7 @@ class Trade extends ConsumerWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    Text(stock.description),
-                    Text(stock.stockId)
+                    Text(stock.description)
                   ],
                 ),
               )
@@ -165,9 +161,97 @@ class Trade extends ConsumerWidget {
         ));
   }
 
-  void buy(String userId) {
-    PortfolioItem portfolioItem =
-        PortfolioItem(userId: userId, stockId: stock.stockId, quantity: 2);
+  void _showBuyDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Enter Quantity"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextField(
+                    controller: _quantityController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(hintText: "Quantity"),
+                    onChanged: (value) {
+                      setState(() {
+                        _totalCost =
+                            (int.tryParse(value) ?? 0) * stock.averagePrice;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Text("Total Cost: $_totalCost Birr"),
+                  const SizedBox(height: 20),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0))),
+                      child: const Text("Cancel"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: const EdgeInsets.symmetric(vertical: 24)),
+                      child: const Text("Proceed to Checkout"),
+                      onPressed: () {
+                        String quantity = _quantityController.text;
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Checkout(
+                                stock: stock, quantity: int.parse(quantity)),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _quantityController.dispose();
+  }
+
+  void buy(String userId, WidgetRef ref) {
+    // int quantity = 4;
+    // PortfolioItem portfolioItem = PortfolioItem(
+    //     userId: userId, stockId: stock.stockId, quantity: quantity);
+    // ref.read(portfolioStateProvider.notifier).createPortfolio(portfolioItem);
+    // Transaction transaction = Transaction(
+    //     stockId: stock.stockId,
+    //     transactionType: 'buy',
+    //     quantity: quantity,
+    //     pricePerShare: stock.averagePrice,
+    //     totalAmount: stock.averagePrice * quantity,
+    //     transactionDate: DateTime.now().toString(),
+    //     userId: userId);
+    // ref.read(transactionStateProvider.notifier).createTransaction(transaction);
   }
 
   void sell() {}

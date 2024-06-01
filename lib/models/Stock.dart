@@ -28,7 +28,7 @@ class Stock {
 
   factory Stock.fromMap(Map<String, dynamic> map) {
     return Stock(
-      stockId: map['Document ID'] ?? '',
+      stockId: map['documentId'] ?? '',
       companyName: map['company_name'] ?? '',
       symbol: map['symbol'] ?? '',
       description: map['Description'] ?? '',

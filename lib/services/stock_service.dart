@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/stock.dart';
+import '../models/Stock.dart';
 import '../providers/database_provider.dart';
 
 final stockProvider = Provider((ref) {

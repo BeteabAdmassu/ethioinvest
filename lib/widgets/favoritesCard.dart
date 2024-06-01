@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/favorites_provider.dart';
-import '../models/stock.dart';
+import '../models/Stock.dart';
 import '../views/trade.dart';
 
 class favoritesCard extends ConsumerWidget {
