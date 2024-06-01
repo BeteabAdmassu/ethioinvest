@@ -1,6 +1,6 @@
 class Wallet {
   final String userId;
-  final double balance;
+  double balance;
 
   Wallet({required this.userId, required this.balance});
 

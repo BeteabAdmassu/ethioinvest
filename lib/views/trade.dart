@@ -1,15 +1,12 @@
 import 'package:ethioinvest/models/Stock.dart';
-import 'package:ethioinvest/providers/auth_provider.dart';
 import 'package:ethioinvest/views/checkout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Trade extends ConsumerWidget {
   final Stock stock;
   Trade({super.key, required this.stock});
   final TextEditingController _quantityController = TextEditingController();
-  double _totalCost = 0.0;
 
   @override
   build(BuildContext context, WidgetRef ref) {
@@ -152,7 +149,24 @@ class Trade extends ConsumerWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    Text(stock.description)
+                    Text(stock.description),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          //implement here
+                        },
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.star_outline_rounded,
+                              color: Colors.amber,
+                            ),
+                            Text('Add to favorites')
+                          ],
+                        ))
                   ],
                 ),
               )
@@ -162,6 +176,7 @@ class Trade extends ConsumerWidget {
   }
 
   void _showBuyDialog(BuildContext context) {
+    double _totalCost = 0.0;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -231,27 +246,6 @@ class Trade extends ConsumerWidget {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    _quantityController.dispose();
-  }
-
-  void buy(String userId, WidgetRef ref) {
-    // int quantity = 4;
-    // PortfolioItem portfolioItem = PortfolioItem(
-    //     userId: userId, stockId: stock.stockId, quantity: quantity);
-    // ref.read(portfolioStateProvider.notifier).createPortfolio(portfolioItem);
-    // Transaction transaction = Transaction(
-    //     stockId: stock.stockId,
-    //     transactionType: 'buy',
-    //     quantity: quantity,
-    //     pricePerShare: stock.averagePrice,
-    //     totalAmount: stock.averagePrice * quantity,
-    //     transactionDate: DateTime.now().toString(),
-    //     userId: userId);
-    // ref.read(transactionStateProvider.notifier).createTransaction(transaction);
   }
 
   void sell() {}

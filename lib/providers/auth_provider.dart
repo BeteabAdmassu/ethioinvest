@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import '../views/home_screen.dart';
-import '../models/wallet.dart';
+import '../models/Wallet.dart';
 import 'wallet_provider.dart';
-import '../models/auth.dart';
+import '../models/Auth.dart';
 import '../providers/favorites_provider.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
