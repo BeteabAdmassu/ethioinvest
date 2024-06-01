@@ -1,39 +1,45 @@
+import 'package:ethioinvest/providers/auth_provider.dart';
+import 'package:ethioinvest/providers/portfolio_provider.dart';
+import 'package:ethioinvest/providers/stock_provider.dart';
+import 'package:ethioinvest/widgets/StockCard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PortfolioPage extends StatelessWidget {
+class PortfolioPage extends ConsumerWidget {
+  bool _dataFetched = false;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+    final userId = authState.userId.toString();
+    final stockStateNotifier = ref.read(stockStateProvider.notifier);
+    final stocks = ref.watch(stockStateProvider);
+
+    final portfolioStateNotifier = ref.read(portfolioStateProvider.notifier);
+    final portfolioStocks = ref.read(portfolioStateProvider);
+    if (!_dataFetched) {
+      stockStateNotifier.fetchStocks();
+      portfolioStateNotifier.fetchPortfolio(userId);
+      _dataFetched = true;
+    }
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 90),
-        margin: EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            SizedBox(height: 8),
-            FavoriteCard(
-              title: 'CBE',
-              subtitle: 'Commercial Bank of Ethiopia',
-              amount: '500 Birr',
-              change: '+12.30%',
-              changeColor: Colors.green,
-              icon: Icons.account_balance_wallet,
-              gradient: LinearGradient(
-                colors: [Colors.teal, Colors.tealAccent],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              subtitleStyle: TextStyle(fontSize: 14, color: Colors.black),
-              iconColor: Colors.white,
-              iconSize: 50,
-              onTap: () {
-                print('CBE tapped');
-              },
-            ),
-          ],
+        appBar: AppBar(
+          title: const Text('My Portfolio'),
         ),
-      ),
-    );
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 1));
+            await portfolioStateNotifier.fetchPortfolio(userId);
+            await stockStateNotifier.fetchStocks();
+          },
+          child: stocks.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  child: Column(children: [
+                    for (var stock in portfolioStocks)
+                      stockCard(stock: stock, context: context),
+                  ]),
+                ),
+        ));
   }
 }
 
@@ -113,7 +119,8 @@ class FavoriteCard extends StatelessWidget {
                       Text(
                         title,
                         style: titleStyle ??
-                            TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         subtitle,

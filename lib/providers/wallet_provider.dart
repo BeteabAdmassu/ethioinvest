@@ -1,10 +1,12 @@
+import 'package:ethioinvest/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/Wallet.dart';
 import '../services/wallet_service.dart';
 
 class WalletStateNotifier extends StateNotifier<List<Wallet>> {
+  final Ref _ref;
   final WalletService _walletService;
-  WalletStateNotifier(this._walletService) : super([]);
+  WalletStateNotifier(this._walletService, this._ref) : super([]);
 
   Future<void> fetchWallets(String userId) async {
     try {
@@ -23,17 +25,15 @@ class WalletStateNotifier extends StateNotifier<List<Wallet>> {
     }
   }
 
-//  Future<void> updateWallet(String documentId, Wallet wallet) async {
-//     try {
-//       await _walletService.updateWallet(documentId, wallet);
-//       state = [
-//         for (final w in state)
-//           if (w.id == documentId) wallet else w,
-//       ];
-//     } catch (e) {
-//       print('Error updating wallet: $e');
-//     }
-//   }
+  Future<void> updateWallet(Wallet wallet, String userId) async {
+    try {
+      final userId = _ref.read(authProvider).userId;
+      await _walletService.updateWallet(wallet.walletId!, wallet);
+      fetchWallets(userId!);
+    } catch (e) {
+      print('Error updating wallet: $e');
+    }
+  }
 
 //   Future<void> deleteWallet(String documentId) async {
 //     try {
@@ -53,5 +53,5 @@ class WalletStateNotifier extends StateNotifier<List<Wallet>> {
 final walletStateProvider =
     StateNotifierProvider<WalletStateNotifier, List<Wallet>>((ref) {
   final walletService = ref.watch(walletProvider);
-  return WalletStateNotifier(walletService);
+  return WalletStateNotifier(walletService, ref);
 });

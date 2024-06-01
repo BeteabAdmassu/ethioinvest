@@ -84,7 +84,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text('Welcome'),
+        ),
         body: RefreshIndicator(
           onRefresh: _refresh,
           child: SingleChildScrollView(
@@ -92,8 +94,8 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                usernameTextWidget(),
-                Padding(
+                //usernameTextWidget(),
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: Text(
                     'Investments',

@@ -13,10 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Checkout extends ConsumerWidget {
+class listingCheckout extends ConsumerWidget {
   final Stock stock;
   final int quantity;
-  const Checkout({super.key, required this.stock, required this.quantity});
+  const listingCheckout(
+      {super.key, required this.stock, required this.quantity});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,7 +89,7 @@ class Checkout extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    'Buy Price',
+                                    'Sell Price',
                                     style: TextStyle(
                                         color: Color.fromARGB(173, 0, 0, 0),
                                         fontSize: 17),
@@ -134,55 +135,6 @@ class Checkout extends ConsumerWidget {
               const SizedBox(
                 height: 30,
               ),
-              FractionallySizedBox(
-                widthFactor: 0.9,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Payment Method',
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromARGB(5, 0, 0, 0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Row(
-                              children: [
-                                Icon(Icons.wallet),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  'Wallet Balance',
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Text('$balance Birr')
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
             ],
           ),
           FractionallySizedBox(
@@ -229,8 +181,8 @@ class Checkout extends ConsumerWidget {
                           ),
                         );
                       } else {
-                        buy(userId, ref, quantity, wallets.first);
-                        _showBuyDialog(context);
+                        sell(userId, ref, quantity, wallets.first);
+                        _showsellDialog(context);
                       }
                     },
                   ),
@@ -246,14 +198,14 @@ class Checkout extends ConsumerWidget {
     );
   }
 
-  void buy(String userId, WidgetRef ref, int quantity, Wallet wallet) {
+  void sell(String userId, WidgetRef ref, int quantity, Wallet wallet) {
     PortfolioItem portfolioItem = PortfolioItem(
         userId: userId, stockId: stock.stockId, quantity: quantity);
     ref.read(portfolioStateProvider.notifier).createPortfolio(portfolioItem);
 
     Transaction transaction = Transaction(
         stockId: stock.stockId,
-        transactionType: 'buy',
+        transactionType: 'sell',
         quantity: quantity,
         pricePerShare: stock.averagePrice,
         totalAmount: stock.averagePrice * quantity,
@@ -265,7 +217,7 @@ class Checkout extends ConsumerWidget {
     ref.read(walletStateProvider.notifier).updateWallet(wallet, userId);
   }
 
-  void _showBuyDialog(BuildContext context) {
+  void _showsellDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

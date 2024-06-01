@@ -1,5 +1,9 @@
 import 'package:ethioinvest/models/Stock.dart';
+import 'package:ethioinvest/models/favorite.dart';
+import 'package:ethioinvest/providers/auth_provider.dart';
+import 'package:ethioinvest/providers/favorites_provider.dart';
 import 'package:ethioinvest/views/checkout.dart';
+import 'package:ethioinvest/views/listingCheckout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +11,7 @@ class Trade extends ConsumerWidget {
   final Stock stock;
   Trade({super.key, required this.stock});
   final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
   @override
   build(BuildContext context, WidgetRef ref) {
@@ -123,7 +128,7 @@ class Trade extends ConsumerWidget {
                             foregroundColor: Colors.teal,
                             backgroundColor: Colors.white,
                           ),
-                          onPressed: sell,
+                          onPressed: () => _showSellDialog(context),
                           child: Text(
                             'Sell ${stock.averagePrice}',
                             style: const TextStyle(fontSize: 16),
@@ -154,8 +159,18 @@ class Trade extends ConsumerWidget {
                       height: 8,
                     ),
                     ElevatedButton(
-                        onPressed: () {
-                          //implement here
+                        onPressed: () async {
+                          final authState = ref.watch(authProvider);
+                          final favorite = Favorite(
+                            stockId: stock.stockId,
+                            userId: authState.userId ?? '',
+                          );
+                          await ref
+                              .read(favoritesStateProvider.notifier)
+                              .createFavorite(favorite);
+                          await ref
+                              .read(favoritesStateProvider.notifier)
+                              .fetchFavorites(authState.userId ?? "");
                         },
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
@@ -248,5 +263,88 @@ class Trade extends ConsumerWidget {
     );
   }
 
-  void sell() {}
+  void _showSellDialog(BuildContext context) {
+    double _totalCost = 0.0;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Enter Quantity"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextField(
+                    controller: _quantityController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(hintText: "Quantity"),
+                    onChanged: (value) {
+                      setState(() {
+                        _totalCost =
+                            (int.tryParse(value) ?? 0) * stock.averagePrice;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _priceController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(hintText: "Price"),
+                    onChanged: (value) {
+                      setState(() {
+                        _totalCost =
+                            (int.tryParse(value) ?? 0) * stock.averagePrice;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Text("Total Cost: $_totalCost Birr"),
+                  const SizedBox(height: 20),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0))),
+                      child: const Text("Cancel"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: const EdgeInsets.symmetric(vertical: 24)),
+                      child: const Text("Proceed to Checkout"),
+                      onPressed: () {
+                        String quantity = _quantityController.text;
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => listingCheckout(
+                                stock: stock, quantity: int.parse(quantity)),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }

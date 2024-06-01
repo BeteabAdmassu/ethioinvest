@@ -29,7 +29,7 @@ class PortfolioService {
     final response = await databases.listDocuments(
         databaseId: databaseId,
         collectionId: collectionId,
-        queries: [Query.equal('userID', userId)]);
+        queries: [Query.equal('user_id', userId)]);
     return response.documents
         .map((doc) => PortfolioItem.fromJson(doc.data))
         .toList();

@@ -30,7 +30,11 @@ class WalletService {
         databaseId: databaseId,
         collectionId: collectionId,
         queries: [Query.equal('userID', userId)]);
-    return response.documents.map((doc) => Wallet.fromMap(doc.data)).toList();
+    return response.documents.map((doc) {
+      var wallet = Wallet.fromMap(doc.data);
+      wallet.walletId = doc.$id;
+      return wallet;
+    }).toList();
   }
 
   Future<void> getWallets(String userId) async {
