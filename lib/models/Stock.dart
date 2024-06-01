@@ -1,4 +1,5 @@
 class Stock {
+  String stockId;
   String companyName;
   String symbol;
   String description;
@@ -6,6 +7,7 @@ class Stock {
   double gain;
 
   Stock({
+    required this.stockId,
     required this.companyName,
     required this.symbol,
     required this.description,
@@ -15,6 +17,7 @@ class Stock {
 
   Map<String, dynamic> toMap() {
     return {
+      'Document ID': stockId,
       'company_name': companyName,
       'symbol': symbol,
       'Description': description,
@@ -25,6 +28,7 @@ class Stock {
 
   factory Stock.fromMap(Map<String, dynamic> map) {
     return Stock(
+      stockId: map['Document ID'] ?? '',
       companyName: map['company_name'] ?? '',
       symbol: map['symbol'] ?? '',
       description: map['Description'] ?? '',

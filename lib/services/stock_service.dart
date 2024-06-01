@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/stock.dart';
 import '../providers/database_provider.dart';
@@ -30,6 +31,7 @@ class StockService {
       databaseId: databaseId,
       collectionId: collectionId,
     );
+    debugPrint(response.documents.first.toString());
     return response.documents.map((doc) => Stock.fromMap(doc.data)).toList();
   }
 

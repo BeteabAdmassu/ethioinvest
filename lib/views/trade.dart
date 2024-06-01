@@ -1,15 +1,21 @@
 import 'package:ethioinvest/models/Portfolio.dart';
-import 'package:ethioinvest/models/Stock.dart';
+import 'package:ethioinvest/models/stock.dart';
+import 'package:ethioinvest/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Trade extends StatelessWidget {
+class Trade extends ConsumerWidget {
   final Stock stock;
   //PortfolioItem portfolio;
   const Trade({super.key, required this.stock});
 
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context, WidgetRef ref) {
+    final authNotifier = ref.read(authProvider.notifier);
+    final authState = ref.watch(authProvider);
+    final userId = authState.userId.toString();
     return Scaffold(
         appBar: AppBar(
           title: Text(stock.companyName),
@@ -104,7 +110,7 @@ class Trade extends StatelessWidget {
                             backgroundColor: Colors.teal,
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: buy,
+                          onPressed: () => buy(userId),
                           child: Text(
                             'Buy ${stock.averagePrice} Birr',
                             style: const TextStyle(fontSize: 16),
@@ -150,6 +156,7 @@ class Trade extends StatelessWidget {
                       height: 8,
                     ),
                     Text(stock.description),
+                    Text(stock.stockId)
                   ],
                 ),
               )
@@ -158,7 +165,10 @@ class Trade extends StatelessWidget {
         ));
   }
 
-  void buy() {}
+  void buy(String userId) {
+    PortfolioItem portfolioItem =
+        PortfolioItem(userId: userId, stockId: stock.stockId, quantity: 2);
+  }
 
   void sell() {}
 }

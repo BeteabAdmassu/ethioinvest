@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/stock.dart';
 import '../services/stock_service.dart';
@@ -10,6 +11,7 @@ class StockStateNotifier extends StateNotifier<List<Stock>> {
     try {
       final stocks = await _stockService.fetchStocks();
       state = stocks;
+      debugPrint('${stocks[0].companyName} : ${stocks[0].stockId}');
     } catch (e) {
       print('Error fetching stocks: $e');
     }

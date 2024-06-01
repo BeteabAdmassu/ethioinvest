@@ -1,5 +1,3 @@
-import 'package:ethioinvest/models/Stock.dart';
-import 'package:ethioinvest/views/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,9 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: authState
-          ? HomeScreen()
-          : LoginScreen(), 
+      home: authState ? HomeScreen() : LoginScreen(),
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),

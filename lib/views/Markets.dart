@@ -34,8 +34,8 @@ class Markets extends ConsumerWidget {
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Stock Market Overview',
                         style: TextStyle(
@@ -53,20 +53,6 @@ class Markets extends ConsumerWidget {
                   ],
                 ),
               ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Example code to create a new stock
-          final newStock = Stock(
-            companyName: 'New Company',
-            symbol: 'NEW',
-            description: 'A new company',
-            averagePrice: 100.0,
-            gain: 5.0,
-          );
-          await ref.read(stockStateProvider.notifier).createStock(newStock);
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }
