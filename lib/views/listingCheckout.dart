@@ -16,8 +16,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class listingCheckout extends ConsumerWidget {
   final Stock stock;
   final int quantity;
+  final double price;
   const listingCheckout(
-      {super.key, required this.stock, required this.quantity});
+      {super.key,
+      required this.stock,
+      required this.quantity,
+      required this.price});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +31,7 @@ class listingCheckout extends ConsumerWidget {
     final balance = wallets.first.balance;
     double totalPrice = quantity * stock.averagePrice;
     return Scaffold(
-      appBar: AppBar(title: Text('${stock.symbol} Purchase')),
+      appBar: AppBar(title: Text('${stock.symbol} Listing')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -95,7 +99,7 @@ class listingCheckout extends ConsumerWidget {
                                         fontSize: 17),
                                   ),
                                   Text(
-                                    '${stock.averagePrice} Birr',
+                                    '${price} Birr',
                                     style: const TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold),
@@ -145,7 +149,7 @@ class listingCheckout extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Total Purchase',
+                      'Total Sale Price',
                       style: TextStyle(
                           color: Color.fromARGB(173, 0, 0, 0), fontSize: 17),
                     ),
@@ -169,7 +173,7 @@ class listingCheckout extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(10.0)),
                         padding: const EdgeInsets.symmetric(vertical: 24)),
                     child: const Text(
-                      "Complete Purchase",
+                      "Create Listing",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     onPressed: () {

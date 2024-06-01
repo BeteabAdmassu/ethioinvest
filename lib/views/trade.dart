@@ -4,6 +4,7 @@ import 'package:ethioinvest/providers/auth_provider.dart';
 import 'package:ethioinvest/providers/favorites_provider.dart';
 import 'package:ethioinvest/views/checkout.dart';
 import 'package:ethioinvest/views/listingCheckout.dart';
+import 'package:ethioinvest/widgets/HistoryCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -85,9 +86,9 @@ class Trade extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 250,
-                child: Placeholder(),
+                child: HistoryCard(),
               ),
               const SizedBox(
                 height: 10,
@@ -205,7 +206,8 @@ class Trade extends ConsumerWidget {
                   TextField(
                     controller: _quantityController,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(hintText: "Quantity"),
+                    decoration:
+                        const InputDecoration(hintText: "Quantity of Shares"),
                     onChanged: (value) {
                       setState(() {
                         _totalCost =
@@ -271,14 +273,15 @@ class Trade extends ConsumerWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text("Enter Quantity"),
+              title: const Text("Sell Shares"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   TextField(
                     controller: _quantityController,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(hintText: "Quantity"),
+                    decoration:
+                        const InputDecoration(hintText: "Quantity of Shares"),
                     onChanged: (value) {
                       setState(() {
                         _totalCost =
@@ -290,7 +293,8 @@ class Trade extends ConsumerWidget {
                   TextField(
                     controller: _priceController,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(hintText: "Price"),
+                    decoration:
+                        const InputDecoration(hintText: "Price per Share"),
                     onChanged: (value) {
                       setState(() {
                         _totalCost =
@@ -328,12 +332,16 @@ class Trade extends ConsumerWidget {
                       child: const Text("Proceed to Checkout"),
                       onPressed: () {
                         String quantity = _quantityController.text;
+                        String price = _priceController.text;
                         Navigator.of(context).pop();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => listingCheckout(
-                                stock: stock, quantity: int.parse(quantity)),
+                              stock: stock,
+                              quantity: int.parse(quantity),
+                              price: double.parse(price),
+                            ),
                           ),
                         );
                       },
